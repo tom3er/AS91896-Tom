@@ -13,17 +13,17 @@ class GermanApp:
             "1": {
                 "name": "Lesson 1: Basics",
                 "vocab": {
-                    "hello": "hallo",
-                    "yes": "ja",
-                    "no": "nein"
+                    "hello": "Hallo",
+                    "yes": "Ja",
+                    "no": "Nein"
                 }
             },
             "2": {
                 "name": "Lesson 2: Everyday Words",
                 "vocab": {
-                    "water": "wasser",
-                    "food": "essen",
-                    "school": "schule"
+                    "water": "Wasser",
+                    "food": "Essen",
+                    "school": "Schule"
                 }
             }
         }
@@ -138,6 +138,49 @@ class GermanApp:
             bg="#f1f5f8",
             justify="center"
         ).pack(pady=(50, 30))
+
+        #Canvas
+        canvas = tk.Canvas(
+            self.root,
+            width=370,
+            height=250,
+            bg="white",
+            highlightthickness=0
+        )
+        canvas.pack()
+
+        #Gernman word
+        canvas.create_text(
+            185,90,
+            text=de,
+            font=("Helvetica", 50, "bold"),
+            fill="#324366"
+        )
+
+        #English word
+        canvas.create_text(
+            185, 150,
+            text=en,
+            font=("Helvetica", 40, "bold"),
+            fill="#1963cf"
+        )
+
+        #Navigation
+
+
+    def next_word(self):
+        if self.index < len(self.words) - 1:
+            self.index += 1
+            self.display_word()
+        else:
+            self.start_quiz()
+    def prev_word(self):
+        if self.index > 0:
+            self.index -= 1
+            self.display_word()
+
+    def start_quiz(self):
+        pass
 
 
 
