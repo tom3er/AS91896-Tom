@@ -165,8 +165,18 @@ class GermanApp:
             fill="#1963cf"
         )
 
-        #Navigation
+        #Buttons
+        nav_frame = tk.Frame(
+            self.root,
+            bg="#f1f5f8"
+        )
+        nav_frame.pack(pady=10)
 
+        prev_btn = self.create_button("Previous", self.prev_word)
+        prev_btn.pack(in_=nav_frame, side="left", padx=10)
+
+        next_btn = self.create_button("Next", self.next_word)
+        next_btn.pack(in_=nav_frame, side="left", padx=10)
 
     def next_word(self):
         if self.index < len(self.words) - 1:
@@ -180,7 +190,7 @@ class GermanApp:
             self.display_word()
 
     def start_quiz(self):
-        pass
+        print("start quiz")
 
 
 
