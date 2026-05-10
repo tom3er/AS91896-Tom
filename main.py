@@ -1,4 +1,5 @@
 import tkinter as tk
+import random
 
 class GermanApp:
 
@@ -170,7 +171,7 @@ class GermanApp:
             self.root,
             bg="#f1f5f8"
         )
-        nav_frame.pack(pady=10)
+        nav_frame.pack(pady=40)
 
         prev_btn = self.create_button("Previous", self.prev_word)
         prev_btn.pack(in_=nav_frame, side="left", padx=10)
@@ -189,8 +190,55 @@ class GermanApp:
             self.index -= 1
             self.display_word()
 
+    def next_question(self):
+        self.clear_screen()
+
+        if self.index >= len(self.words):
+            self.show_result()
+            return
+
+        en, de = self.words[self.index]
+        self.current_word = (en, de)
+
+        tk.Label(
+            self.root,
+            text=f"What is '{en}' in German?",
+            font=self.title_font_1,
+            fg="#324366",
+            bg="#f1f5f8",
+            justify="center"
+        ).pack(pady=30)
+
+        all_words=[]
+        for lesson in self.lesson_data.values():
+            all_words.extend(lesson["vocab"].values())
+
+        wrong_options=[word for word in all_words if word !=de]
+        wrong_choices=random.sample(wrong_options, 3)
+
+        options = wrong_choices + [de]
+        random.shuffle(options)
+
+        for option in options:
+            btn = self.create_button(option,lambda opt=option: self.check_answer(opt))
+            btn.pack(pady=10)
+
+
+
+    def check_answer(self, selected):
+        pass
+
+
     def start_quiz(self):
-        print("start quiz")
+        random.shuffle(self.words)
+        self.score=0
+        self.index=0
+        self.next_question()
+
+
+
+    def show_result(self):
+        pass
 
 
 
