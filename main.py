@@ -74,7 +74,7 @@ class GermanApp:
             text_color = "white"
             width = 260
 
-          btn = ctk.CTkButton(
+        btn = ctk.CTkButton(
               self.root,
               text = text,
               command = command,
@@ -86,7 +86,7 @@ class GermanApp:
               hover_color = hover_color,
               text_color = text_color,
               border_width = 0
-          )
+        )
 
         return btn
 
@@ -166,121 +166,175 @@ class GermanApp:
 
         lesson_name = self.lesson_data[self.current_lesson_key]['name']
 
-        # Title
+        # Lesson Title
         tk.Label(
             self.root,
-            text=lesson_name,
-            font=self.title_font_2,
-            fg="#324366",
-            bg="#f1f5f8",
-            justify="center"
+            text = lesson_name,
+            font = self.title_font_2,
+            fg = "#324366",
+            bg = "#f1f5f8",
+            justify = "center"
         ).pack(pady=(50, 30))
 
-        #Canvas
-        canvas = tk.Canvas(
+        # Card Frame
+
+        card = ctk.CTkFrame(
             self.root,
-            width=370,
-            height=250,
-            bg="white",
-            highlightthickness=0
-        )
-        canvas.pack()
-
-        #Gernman word
-        canvas.create_text(
-            185,90,
-            text=de,
-            font=("Helvetica", 50, "bold"),
-            fill="#324366"
+            width = 370,
+            height = 250,
+            corner_radius = 25,
+            fg_color = "white"
         )
 
-        #English word
-        canvas.create_text(
-            185, 150,
-            text=en,
-            font=("Helvetica", 40, "bold"),
-            fill="#1963cf"
+        card.pack()
+
+        card.pack_propagate(False)
+
+        # German Word
+
+        german_label = tk.Label(
+            card,
+            text = de,
+            font = ("Helvetica", 40, "bold"),
+            fg = "#324366",
+            bg = "white"
         )
 
-        #Buttons
+        german_label.pack(pady=(55,10))
+
+        # English Word
+
+        english_label = tk.Label(
+            card,
+            text = en,
+            font = ("Helvetica", 36, "bold"),
+            fg = "#1963cf",
+            bg = "white"
+        )
+
+        english_label.pack()
+
+        # Navigation Buttons
+
         nav_frame = tk.Frame(
             self.root,
             bg="#f1f5f8"
         )
+
         nav_frame.pack(pady=40)
 
-        prev_btn = self.create_button("Previous", self.prev_word)
-        prev_btn.pack(in_=nav_frame, side="left", padx=10)
+        prev_btn = self.create_button(
+            "Previous",
+            self.prev_word)
 
-        next_btn = self.create_button("Next", self.next_word)
-        next_btn.pack(in_=nav_frame, side="left", padx=10)
+        prev_btn.pack(
+            in_=nav_frame,
+            side="left",
+            padx=10)
+
+        next_btn = self.create_button(
+            "Next",
+            self.next_word)
+
+        next_btn.pack(
+            in_=nav_frame,
+            side="left",
+            padx=10)
+
+    # ********** NEXT WORD **********
 
     def next_word(self):
+
         if self.index < len(self.words) - 1:
+
             self.index += 1
             self.display_word()
+
         else:
             self.start_quiz()
+
+    # ********** PREVIOUS WORD **********
+
     def prev_word(self):
+
         if self.index > 0:
+
             self.index -= 1
             self.display_word()
 
+    # ********** QUIZ **********
+
+    def start_quiz(self):
+
+        random.shuffle(self.words)
+
+        self.score=0
+        self.index=0
+
+        self.next_question()
+
+    # ********** NEXT QUESTION **********
+
     def next_question(self):
+
         self.clear_screen()
 
         if self.index >= len(self.words):
+
             self.show_result()
             return
 
         en, de = self.words[self.index]
+
         self.current_word = (en, de)
 
-        tk.Label(
+        question = tk.Label(
             self.root,
             text=f"What is '{en}' in German?",
             font=self.title_font_1,
             fg="#324366",
             bg="#f1f5f8",
             justify="center"
-        ).pack(pady=30)
+        )
+
+        question.pack(pady=30)
 
         all_words=[]
+
         for lesson in self.lesson_data.values():
             all_words.extend(lesson["vocab"].values())
 
         wrong_options=[word for word in all_words if word !=de]
+
         wrong_choices=random.sample(wrong_options, 3)
 
         options = wrong_choices + [de]
+
         random.shuffle(options)
 
         for option in options:
-            btn = self.create_button(option,lambda opt=option: self.check_answer(opt))
+
+            btn = self.create_button(
+                option,
+                lambda opt=option: self.check_answer(opt)
+            )
+
             btn.pack(pady=10)
 
-
+    # ********** CHECK ANSWER **********
 
     def check_answer(self, selected):
         pass
 
-
-    def start_quiz(self):
-        random.shuffle(self.words)
-        self.score=0
-        self.index=0
-        self.next_question()
-
-
+    # SHOW RESULT **********
 
     def show_result(self):
         pass
 
+# ********** RUN APP **********
 
-
-
-
-#RUN APP
 root = tk.Tk()
+
 app = GermanApp(root)
+
 root.mainloop()
