@@ -103,6 +103,7 @@ class GermanApp:
             text = "German Guide\nfor Kiwi Students",
             font = self.title_font_1,
             fg = "#324366",
+            bg="#f1f5f8",
             justify = "center"
         )
 
@@ -125,7 +126,8 @@ class GermanApp:
             self.root,
             text = "Master essential German fast!",
             font = self.text_font,
-            fg = "#324366"
+            fg = "#324366",
+            bg="#f1f5f8"
         )
 
         subtitle.pack(pady=(15,25))
@@ -302,6 +304,7 @@ class GermanApp:
         all_words=[]
 
         for lesson in self.lesson_data.values():
+
             all_words.extend(lesson["vocab"].values())
 
         wrong_options=[word for word in all_words if word !=de]
@@ -312,6 +315,8 @@ class GermanApp:
 
         random.shuffle(options)
 
+        self.option_buttons = []
+
         for option in options:
 
             btn = self.create_button(
@@ -321,15 +326,45 @@ class GermanApp:
 
             btn.pack(pady=10)
 
+            self.option_buttons.append(btn)
+
     # ********** CHECK ANSWER **********
 
     def check_answer(self, selected):
-        pass
+
+        correct_german = self.current_word[1]
+
+        for btn in self.option_buttons:
+
+            btn.configure(state="disabled")
+
+            if btn.cget("text") == correct_german:
+
+                btn.configure(
+                    fg_color="#6ab241",
+                    text_color="white"
+                )
+
+            elif btn.cget("text") == selected and selected != correct_german:
+
+                btn.configure(
+                    fg_color="#ff5757",
+                    text_color="white"
+                )
+
+        if selected == correct_german:
+
+            self.score += 1
+
+        self.index += 1
+
+        self.root.after(2000, self.next_question)
+
 
     # SHOW RESULT **********
 
     def show_result(self):
-        pass
+        print(self.score)
 
 # ********** RUN APP **********
 
