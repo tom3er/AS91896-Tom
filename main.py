@@ -358,13 +358,113 @@ class GermanApp:
 
         self.index += 1
 
-        self.root.after(2000, self.next_question)
+        self.root.after(50, self.next_question)
 
 
-    # SHOW RESULT **********
+    # ********* SHOW RESULT **********
 
     def show_result(self):
-        print(self.score)
+
+        self.clear_screen()
+
+        percentage = round(self.score / len((self.words)) * 100)
+
+        # Score Title
+
+        title = tk.Label(
+            self.root,
+            text="Score",
+            font=self.title_font_1,
+            fg="#324366",
+            bg="#f1f5f8",
+            justify="center"
+        )
+
+        title.pack(pady=(50,30))
+
+        # Message
+
+        if percentage == 100:
+
+            msg = "Perfect score! Keep that momentum going!"
+
+        elif percentage > 65:
+
+            msg = "Awesome! Continue Learning!"
+
+        else:
+
+            msg = "Keep practicing!"
+
+        message = tk.Label(
+            self.root,
+            text= msg,
+            font=("Helvetica", 17),
+            fg="#324366",
+            bg="#f1f5f8"
+        )
+
+        message.pack()
+
+        # Right / Wrong Words
+
+        frame = tk.Frame(
+            self.root,
+            bg="#f1f5f8"
+        )
+
+        frame.pack(pady=40)
+
+        # Right Words Card
+
+        card_right = ctk.CTkFrame(
+            frame,
+            width=200,
+            height=125,
+            corner_radius=25,
+            fg_color="#6ab241"
+        )
+
+        card_right.pack(
+            side="left",
+            padx=30
+        )
+
+        card_right.pack_propagate(False)
+
+        right_words = tk.Label(
+            card_right,
+            text=f"{self.score} Word(s)\nRight",
+            font=("Helvetica", 16),
+            fg="white",
+            bg="#6ab241",
+            justify="left"
+        )
+
+        right_words.pack(expand=True)
+
+        card_wrong = ctk.CTkFrame(
+            self.root,
+            width=200,
+            height=125,
+            corner_radius=25,
+            fg_color="#ff5757"
+        )
+
+        card_wrong.pack(
+            in_=frame,
+            side="right",
+            padx=30
+        )
+
+
+
+
+
+
+
+
+
 
 # ********** RUN APP **********
 
