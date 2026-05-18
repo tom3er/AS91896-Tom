@@ -358,7 +358,7 @@ class GermanApp:
 
         self.index += 1
 
-        self.root.after(50, self.next_question)
+        self.root.after(1200, self.next_question)
 
 
     # ********* SHOW RESULT **********
@@ -444,27 +444,41 @@ class GermanApp:
         right_words.pack(expand=True)
 
         card_wrong = ctk.CTkFrame(
-            self.root,
+            frame,
             width=200,
             height=125,
             corner_radius=25,
             fg_color="#ff5757"
         )
 
+        card_wrong.pack_propagate(False)
+
         card_wrong.pack(
-            in_=frame,
             side="right",
             padx=30
         )
 
+        wrong_words = tk.Label(
+            card_wrong,
+            text=f"{len(self.words)-self.score} Word(s)\nWrong",
+            font=("Helvetica", 16),
+            fg="white",
+            bg="#ff5757",
+            justify="left"
+        )
 
+        wrong_words.pack(expand = True)
 
+        percentage_label = tk.Label(
+            self.root,
+            text=f"{percentage}%",
+            font=self.title_font_1,
+            fg="#324366",
+            bg="#f1f5f8",
+            justify="center"
+        )
 
-
-
-
-
-
+        percentage_label.pack()
 
 # ********** RUN APP **********
 
