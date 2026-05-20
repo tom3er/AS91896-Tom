@@ -380,7 +380,7 @@ class GermanApp:
             justify="center"
         )
 
-        title.pack(pady=(50,30))
+        title.pack(pady=(50,15))
 
         # Message
 
@@ -404,7 +404,7 @@ class GermanApp:
             bg="#f1f5f8"
         )
 
-        message.pack()
+        message.pack(pady=(0,25))
 
         # Right / Wrong Words
 
@@ -413,7 +413,7 @@ class GermanApp:
             bg="#f1f5f8"
         )
 
-        frame.pack(pady=40)
+        frame.pack(pady=20)
 
         # Right Words Card
 
@@ -427,7 +427,7 @@ class GermanApp:
 
         card_right.pack(
             side="left",
-            padx=30
+            padx=15
         )
 
         card_right.pack_propagate(False)
@@ -455,7 +455,7 @@ class GermanApp:
 
         card_wrong.pack(
             side="right",
-            padx=30
+            padx=15
         )
 
         wrong_words = tk.Label(
@@ -469,6 +469,8 @@ class GermanApp:
 
         wrong_words.pack(expand = True)
 
+        # Percentage Label
+
         percentage_label = tk.Label(
             self.root,
             text=f"{percentage}%",
@@ -478,7 +480,16 @@ class GermanApp:
             justify="center"
         )
 
-        percentage_label.pack()
+        percentage_label.pack(pady=(10,10))
+
+        # Back to Menu Button
+
+        home_btn = self.create_button(
+            "Back to Menu",
+            self.create_home_screen
+        )
+
+        home_btn.pack(pady=10)
 
 # ********** RUN APP **********
 
